@@ -1,0 +1,36 @@
+{
+  "name": "university-finder",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Science-focused university directory for EduTech Global Solutions, LLC.",
+  "author": "Marlon Packard Viza Quispe",
+  "engines": { "node": "^20.19.0 || ^22.12.0 || ^24.0.0" },
+  "scripts": {
+    "start": "ng serve --host 0.0.0.0",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "serve:production": "node server/server.mjs",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui"
+  },
+  "dependencies": {
+    "@angular/cdk": "20.2.14",
+    "@angular/common": "20.3.32",
+    "@angular/compiler": "20.3.32",
+    "@angular/core": "20.3.32",
+    "@angular/forms": "20.3.32",
+    "@angular/material": "20.2.14",
+    "@angular/platform-browser": "20.3.32",
+    "rxjs": "~7.8.2",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@angular/build": "^20.3.0",
+    "@angular/cli": "^20.3.0",
+    "@angular/compiler-cli": "20.3.32",
+    "@axe-core/playwright": "^4.10.2",
+    "@playwright/test": "^1.55.0",
+    "@types/node": "^24.0.0",
+    "typescript": "~5.9.3"
+  }
+}
