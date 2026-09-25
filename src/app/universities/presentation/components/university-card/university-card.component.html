@@ -1,0 +1,55 @@
+<!-- @summary Complete card details with image fallback and accessible actions. @author Marlon Packard Viza Quispe -->
+<mat-card appearance="outlined" role="group" [attr.aria-label]="university().name">
+  <mat-card-content>
+    <div class="card-top">
+      <div class="logo-container">
+        @if (logoUrl() && !logoFailed()) {
+          <img [src]="logoUrl()" [alt]="i18n.text().logo + ' ' + university().name"
+            width="48" height="48" loading="lazy" referrerpolicy="no-referrer" (error)="logoFailed.set(true)">
+        } @else {
+          <img src="university-placeholder.svg" [alt]="i18n.text().logoUnavailable + ' ' + university().name"
+            width="48" height="48">
+        }
+      </div>
+      <span class="country-code" [attr.aria-label]="i18n.text().code + ': ' + (university().countryCode || i18n.text().unavailable)">
+        {{ university().countryCode || '—' }}
+      </span>
+    </div>
+    <h3>{{ university().name }}</h3>
+    <dl>
+      <div class="country-row">
+        <div><dt>{{ i18n.text().country }}</dt><dd>{{ university().country || i18n.text().unavailable }}</dd></div>
+        <div><dt>{{ i18n.text().code }}</dt><dd>{{ university().countryCode || i18n.text().unavailable }}</dd></div>
+      </div>
+      @if (university().stateProvince) {
+        <div><dt>{{ i18n.text().region }}</dt><dd>{{ university().stateProvince }}</dd></div>
+      }
+      <div>
+        <dt>{{ i18n.text().domains }}</dt>
+        <dd class="domain-list">
+          @for (domain of university().domains; track domain) { <span>{{ domain }}</span> }
+          @empty { {{ i18n.text().unavailable }} }
+        </dd>
+      </div>
+      <div>
+        <dt>{{ i18n.text().websites }}</dt>
+        <dd class="website-list">
+          @for (website of university().websites; track website) {
+            <a [href]="website" target="_blank" rel="noopener noreferrer"
+              [attr.aria-label]="website + ' (' + i18n.text().newTab + ')'">{{ website }}</a>
+          } @empty { {{ i18n.text().unavailable }} }
+        </dd>
+      </div>
+    </dl>
+  </mat-card-content>
+  <mat-card-actions>
+    @if (primaryWebsite(); as website) {
+      <a mat-stroked-button [href]="website" target="_blank" rel="noopener noreferrer"
+        [attr.aria-label]="i18n.text().visit + ' ' + university().name + ' (' + i18n.text().newTab + ')'">
+        {{ i18n.text().readMore }} <span class="external-arrow" aria-hidden="true">↗</span>
+      </a>
+    } @else {
+      <button mat-stroked-button disabled>{{ i18n.text().noWebsite }}</button>
+    }
+  </mat-card-actions>
+</mat-card>

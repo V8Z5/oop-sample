@@ -1,0 +1,19 @@
+<!-- @summary Header identity and language controls. @author Marlon Packard Viza Quispe -->
+<header>
+  <mat-toolbar aria-label="UniversityFinder">
+    <div class="toolbar-content">
+      <div class="brand">
+        <img src="favicon.svg" width="40" height="40" alt="" aria-hidden="true">
+        <div>
+          <span class="product-name">UNIVERSITYFINDER</span>
+          <h1>Science-Focused Universities</h1>
+        </div>
+      </div>
+      <mat-button-toggle-group [value]="i18n.language()" [attr.aria-label]="i18n.text().language"
+        [hideSingleSelectionIndicator]="true" (change)="i18n.setLanguage($event.value)">
+        <mat-button-toggle value="en" aria-label="English" lang="en">EN</mat-button-toggle>
+        <mat-button-toggle value="es" aria-label="Español" lang="es">ES</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+  </mat-toolbar>
+</header>
