@@ -1,0 +1,56 @@
+name: Package PC1 submission
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'pc112158u202322849.zip'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build submission ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT="pc112158u202322849"
+          TMP_DIR="$(mktemp -d)"
+          mkdir -p "$TMP_DIR/$ROOT"
+
+          rsync -a ./ "$TMP_DIR/$ROOT/" \
+            --exclude '.git/' \
+            --exclude '.github/' \
+            --exclude 'node_modules/' \
+            --exclude 'dist/' \
+            --exclude 'server/' \
+            --exclude 'package-lock.json' \
+            --exclude 'pc112158u202322849.zip'
+
+          (
+            cd "$TMP_DIR"
+            zip -qr "$GITHUB_WORKSPACE/pc112158u202322849.zip" "$ROOT"
+          )
+
+      - name: Commit downloadable ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add pc112158u202322849.zip
+
+          if git diff --cached --quiet; then
+            echo "Submission ZIP is already current."
+            exit 0
+          fi
+
+          git commit -m "chore: add downloadable PC1 submission package"
+          git push
